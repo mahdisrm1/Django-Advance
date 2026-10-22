@@ -29,7 +29,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255,unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
