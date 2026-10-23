@@ -35,10 +35,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     #is_verified =  models.BooleanField(default=False)
-    first_name = models.CharField(max_length=100)
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
-
+    objects = CustomUserManager()
     def __str__(self):
         return self.email
