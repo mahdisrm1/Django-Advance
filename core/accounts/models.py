@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager,AbstractBaseUser, PermissionsMixin)
 from django.utils.translation import gettext_lazy as _
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save , pre_save
 from django.dispatch import receiver
 # Create your models here.
 class CustomUserManager(BaseUserManager):
@@ -50,7 +50,7 @@ class Profile(models.Model):
     User = models.ForeignKey(User,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    image = models.ImageField(blank=True,null=True)
+    image = models.ImageField(blank=True,null=True,upload_to='Profile/')
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -62,3 +62,15 @@ class Profile(models.Model):
 def save_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(User=instance)
+
+@receiver(pre_save, sender=Profile)
+def delete_old_image_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+    try:
+        old = Profile.objects.get(pk=instance.pk).image
+    except Profile.DoesNotExist:
+        return
+    new = instance.image
+    if old and old != new:
+        old.delete(save=False)
