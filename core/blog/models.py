@@ -1,8 +1,10 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth import get_user_model
 # Create your models here
+#getting user model
+User = get_user_model()
 class Post (models.Model):
-    image = models.ImageField(null=True,blank=True)
+    image = models.ImageField(null=True,blank=True,upload_to='Post/')
     title = models.CharField(max_length=150)
     content = models.TextField()
     status = models.BooleanField()
