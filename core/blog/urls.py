@@ -12,5 +12,6 @@ urlpatterns = [
     #path ("re_4/<int:pk>/",views.redirect4.as_view(),name="rediret4"),
     path("post/",views.listviews.as_view(),name="listviwes"),
     path("post/<int:pk>/",views.detailpost.as_view(),name="detailpost"),
-    path("post/craete/",views.formViews.as_view(),name="formview")
+    path("post/craete/",views.formViews.as_view(),name="formview"),
+    path("create/post/",views.createview.as_view(),name="createview"),
 ]
