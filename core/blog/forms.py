@@ -4,4 +4,5 @@ from  .models import Post
 class ContactForm(forms.ModelForm):
    class Meta:
         model = Post
-        fields = "__all__"
+        fields = ["image","title","content","status",
+            "category","pubished_date",]
