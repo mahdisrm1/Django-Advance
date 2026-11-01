@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import RedirectView
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from  .models import Post
 # Create your views here.
 '''
@@ -19,10 +21,23 @@ class indexviews(TemplateView):
         context = super().get_context_data(**kwargs)
         context["name"]="ali"
         return context
- 
-class redirect4(RedirectView):
-    url="https://biamusic.ir/"
-    def get_redirect_url(self, *args, **kwargs):
-        Posts = get_object_or_404(Post, pk=kwargs["pk"])
-        print(Posts)
-        return super().get_redirect_url(*args, **kwargs)
+"""RedirectView"""
+#class redirect4(RedirectView):
+#    url="https://biamusic.ir/"
+#    def get_redirect_url(self, *args, **kwargs):
+#        Posts = get_object_or_404(Post, pk=kwargs["pk"])
+#       print(Posts)
+#        return super().get_redirect_url(*args, **kwargs)
+"""
+ListView
+"""
+class listviews(ListView):
+    #paginate_by = 2
+    ordering = '-id'
+    model = Post
+    #def get_queryset(self):
+    #   posts = Post.objects.filter(status=True)
+    #    return posts
+
+class detailpost(DetailView):
+    model = Post
