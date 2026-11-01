@@ -14,4 +14,6 @@ urlpatterns = [
     path("post/<int:pk>/",views.detailpost.as_view(),name="detailpost"),
     path("post/craete/",views.formViews.as_view(),name="formview"),
     path("create/post/",views.createview.as_view(),name="createview"),
+    path("post/<int:pk>/edit",views.updateview.as_view(),name="edit_view"),
+    path("post/<int:pk>/delete",views.deletview.as_view(),name= "delete_view")
 ]

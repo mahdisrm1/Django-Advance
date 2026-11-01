@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView,CreateView
+from django.views.generic.edit import FormView,CreateView,UpdateView,DeleteView
 
 from  .models import Post
 from .forms import ContactForm
@@ -57,3 +57,12 @@ class createview(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class updateview(UpdateView):
+    model = Post
+    form_class = ContactForm
+    success_url = "/blog/post/"
+
+class deletview(DeleteView):
+    model = Post
+    success_url = "/blog/post/"
