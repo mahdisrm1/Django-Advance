@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView,CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from  .models import Post
 from .forms import ContactForm
@@ -42,7 +43,7 @@ class listviews(ListView):
     #   posts = Post.objects.filter(status=True)
     #    return posts
 
-class detailpost(DetailView):
+class detailpost(LoginRequiredMixin,DetailView):
     model = Post
 
 class formViews(FormView):
@@ -50,7 +51,7 @@ class formViews(FormView):
     form_class = ContactForm
     success_url = "/blog/post/"
 
-class createview(CreateView):
+class createview(LoginRequiredMixin,CreateView):
     model = Post
     form_class = ContactForm
     success_url = "/blog/post/" 
@@ -58,11 +59,11 @@ class createview(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class updateview(UpdateView):
+class updateview(LoginRequiredMixin,UpdateView):
     model = Post
     form_class = ContactForm
     success_url = "/blog/post/"
 
-class deletview(DeleteView):
+class deletview(LoginRequiredMixin,DeleteView):
     model = Post
     success_url = "/blog/post/"
