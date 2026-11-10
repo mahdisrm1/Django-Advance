@@ -6,7 +6,6 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView,CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from  .models import Post
 from .forms import ContactForm
 # Create your views here.
