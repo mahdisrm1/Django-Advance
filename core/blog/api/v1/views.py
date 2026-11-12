@@ -17,18 +17,33 @@ def apiview(request):
     return Response({"ok":"gh"})
 
 
-@api_view()
+@api_view(["GET","PUT"])
 def apipost(request,id):
     #try:
         post= get_object_or_404(Post,id=id)
-        serializer = serialaizerpost(post)
-        serializer = serializer.data
-        return Response(serializer)
+        if request.method == "GET":
+            serializer = serialaizerpost(post)
+            serializer = serializer.data
+            return Response(serializer)
+        elif request.method == "PUT":
+            serializer = serialaizerpost(post,data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return  Response(serializer.data)
     #except:
     #    return  Response(status=status.HTTP_404_NOT_FOUND)
 
-@api_view()
+@api_view(["GET","POST"])
 def apilist(request):
-      post = Post.objects.all()
-      serialaizer = serialaizerpost(post,many=True)
-      return Response(serialaizer.data)
+    if request.method =="GET":
+        post = Post.objects.all()
+        serialaizer = serialaizerpost(post,many=True)
+        return Response(serialaizer.data)
+    elif request.method == "POST":
+        serialaizer = serialaizerpost(data=request.data)
+        #if serialaizer.is_valid():
+        serialaizer = serialaizer.is_valid(raise_exception=True)
+        serialaizer.save()
+        return Response(serialaizer.data)
+        #else:
+        #     return Response(serialaizer.errors)
