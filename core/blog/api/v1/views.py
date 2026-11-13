@@ -17,7 +17,7 @@ def apiview(request):
     return Response({"ok":"gh"})
 
 
-@api_view(["GET","PUT"])
+@api_view(["GET","PUT","DELETE"])
 def apipost(request,id):
     #try:
         post= get_object_or_404(Post,id=id)
@@ -30,6 +30,9 @@ def apipost(request,id):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return  Response(serializer.data)
+        elif request.method == "DELETE":
+            post.delete()
+            return Response({"derail":"delet sucsessfully "},status=status.HTTP_204_NO_CONTENT)
     #except:
     #    return  Response(status=status.HTTP_404_NOT_FOUND)
 
