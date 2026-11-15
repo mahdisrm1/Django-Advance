@@ -45,7 +45,7 @@ def apilist(request):
     elif request.method == "POST":
         serialaizer = serialaizerpost(data=request.data)
         #if serialaizer.is_valid():
-        serialaizer = serialaizer.is_valid(raise_exception=True)
+        serialaizer.is_valid(raise_exception=True)
         serialaizer.save()
         return Response(serialaizer.data)
         #else:
