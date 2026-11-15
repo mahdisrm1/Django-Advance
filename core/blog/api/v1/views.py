@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status 
 from django.shortcuts import get_object_or_404
@@ -18,6 +19,7 @@ def apiview(request):
 
 
 @api_view(["GET","PUT","DELETE"])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def apipost(request,id):
     #try:
         post= get_object_or_404(Post,id=id)
@@ -37,6 +39,7 @@ def apipost(request,id):
     #    return  Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(["GET","POST"])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def apilist(request):
     if request.method =="GET":
         post = Post.objects.all()

@@ -133,3 +133,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #costome user 
 AUTH_USER_MODEL = "accounts.User"
+
+## django rest framework
+
+# REST_FRAMEWORK = {
+#      'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ]
+# }
