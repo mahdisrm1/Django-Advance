@@ -5,7 +5,9 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .serializers import serialaizerpost
 from ...models import Post
-from rest_framework.views import APIView
+#from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView ,ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework import mixins
 data = {
     1:{
     "title":"blue"},
@@ -57,38 +59,51 @@ def apiview(request):
 #         #else:
 #         #     return Response(serialaizer.errors)
 
-class apilist (APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    serializer_class = serialaizerpost
-    """
-    List all snippets, or create a new snippet.
-    """
-    def get(self, request):
-        post = Post.objects.all()
-        serialaizer = serialaizerpost(post,many=True)
-        return Response(serialaizer.data)
-    def post(self, request):
-        serialaizer = serialaizerpost(data=request.data)
-        serialaizer.is_valid(raise_exception=True)
-        serialaizer.save()
-        return Response(serialaizer.data)
+# class apilist (APIView):
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+#     serializer_class = serialaizerpost
+#     """
+#     List all snippets, or create a new snippet.
+#     """
+#     def get(self, request):
+#         post = Post.objects.all()
+#         serialaizer = serialaizerpost(post,many=True)
+#         return Response(serialaizer.data)
+#     def post(self, request):
+#         serialaizer = serialaizerpost(data=request.data)
+#         serialaizer.is_valid(raise_exception=True)
+#         serialaizer.save()
+#         return Response(serialaizer.data)
 
-class apipost(APIView):
+# class apipost(APIView):
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+#     serializer_class = serialaizerpost
+#     """singel post and update post and deleted post"""
+#     def get(self,request,id):
+#         post= get_object_or_404(Post,id=id)
+#         serializer = self.serializer_class(post)
+#         serializer = serializer.data
+#         return Response(serializer)
+#     def put(self,request,id):
+#         post= get_object_or_404(Post,id=id)
+#         serializer = serialaizerpost(post,data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return  Response(serializer.data)
+#     def delete(self,request,id):
+#         post= get_object_or_404(Post,id=id)
+#         post.delete()
+#         return Response({"derail":"delet sucsessfully "},status=status.HTTP_204_NO_CONTENT)
+
+class apilist(ListCreateAPIView):
+    """getting a lisi of posts and creating new posts"""
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = serialaizerpost
-    """singel post and update post and deleted post"""
-    def get(self,request,id):
-        post= get_object_or_404(Post,id=id)
-        serializer = self.serializer_class(post)
-        serializer = serializer.data
-        return Response(serializer)
-    def put(self,request,id):
-        post= get_object_or_404(Post,id=id)
-        serializer = serialaizerpost(post,data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return  Response(serializer.data)
-    def delete(self,request,id):
-        post= get_object_or_404(Post,id=id)
-        post.delete()
-        return Response({"derail":"delet sucsessfully "},status=status.HTTP_204_NO_CONTENT)
+    queryset = Post.objects.filter(status=1)
+
+
+class apipost(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = serialaizerpost
+    queryset = Post.objects.filter(status=1)
+    

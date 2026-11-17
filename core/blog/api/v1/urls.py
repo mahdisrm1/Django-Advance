@@ -6,5 +6,5 @@ urlpatterns = [
 #    path("post/<int:id>/",views.apipost,name="apidate"),
 #    path("posts/",views.apilist,name="api_list"),
     path("posts/",views.apilist.as_view(),name="apidate"),
-    path("post/<int:id>/",views.apipost.as_view(),name="apidate"),
+    path("post/<int:pk>/",views.apipost.as_view(),name="apidate"),
 ]
