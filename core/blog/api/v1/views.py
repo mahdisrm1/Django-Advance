@@ -8,6 +8,7 @@ from ...models import Post
 #from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView ,ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework import mixins
+from rest_framework import viewsets
 data = {
     1:{
     "title":"blue"},
@@ -95,15 +96,43 @@ def apiview(request):
 #         post.delete()
 #         return Response({"derail":"delet sucsessfully "},status=status.HTTP_204_NO_CONTENT)
 
-class apilist(ListCreateAPIView):
-    """getting a lisi of posts and creating new posts"""
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    serializer_class = serialaizerpost
-    queryset = Post.objects.filter(status=1)
+
+##genercview 
+# class apilist(ListCreateAPIView):
+#     """getting a lisi of posts and creating new posts"""
+#     permission_classes = [IsAuthenticatedOrReadOnly]
+#     serializer_class = serialaizerpost
+#     queryset = Post.objects.filter(status=1)
 
 
 class apipost(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = serialaizerpost
     queryset = Post.objects.filter(status=1)
-    
+
+
+class apilist(viewsets.ViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = serialaizerpost
+    queryset = Post.objects.filter(status=1)
+    """
+    A simple ViewSet for listing or retrieving users.
+    """
+    def list(self, request):
+        serializer = self.serializer_class(self.queryset,many=True)
+        return Response(serializer.data)
+    def retrieve(self, request, pk=None):
+        queryset =get_object_or_404(self.queryset,pk=pk)
+        serializer = self.serializer_class(queryset)
+        return Response(serializer.data)
+    def create(self, request):
+        pass
+
+    def update(self, request, pk=None):
+        pass
+
+    def partial_update(self, request, pk=None):
+        pass
+
+    def destroy(self, request, pk=None):
+        pass
