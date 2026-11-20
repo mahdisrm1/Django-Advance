@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework import status 
 from django.shortcuts import get_object_or_404
-from .serializers import serialaizerpost
-from ...models import Post
+from .serializers import serialaizerpost,serializerCategory
+from ...models import Post ,Category
 #from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView ,ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework import mixins
@@ -111,28 +111,36 @@ class apipost(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.filter(status=1)
 
 
-class apilist(viewsets.ViewSet):
+class apilist(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = serialaizerpost
     queryset = Post.objects.filter(status=1)
     """
     A simple ViewSet for listing or retrieving users.
     """
-    def list(self, request):
-        serializer = self.serializer_class(self.queryset,many=True)
-        return Response(serializer.data)
-    def retrieve(self, request, pk=None):
-        queryset =get_object_or_404(self.queryset,pk=pk)
-        serializer = self.serializer_class(queryset)
-        return Response(serializer.data)
-    def create(self, request):
-        pass
+    # def list(self, request):
+    #     serializer = self.serializer_class(self.queryset,many=True)
+    #     return Response(serializer.data)
+    # def retrieve(self, request, pk=None):
+    #     queryset =get_object_or_404(self.queryset,pk=pk)
+    #     serializer = self.serializer_class(queryset)
+    #     return Response(serializer.data)
+    # def create(self, request):
+    #     pass
 
-    def update(self, request, pk=None):
-        pass
+    # def update(self, request, pk=None):
+    #     pass
 
-    def partial_update(self, request, pk=None):
-        pass
+    # def partial_update(self, request, pk=None):
+    #     pass
 
-    def destroy(self, request, pk=None):
-        pass
+    # def destroy(self, request, pk=None):
+    #     pass
+
+"""
+Category model
+"""
+class Categorymodelapi(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = serializerCategory
+    queryset = Category.objects.all()

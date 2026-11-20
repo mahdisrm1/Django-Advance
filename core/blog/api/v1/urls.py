@@ -3,6 +3,7 @@ from rest_framework import routers
 from . import views
 router = routers.SimpleRouter()
 router.register('post',views.apilist,basename="list")
+router.register('category',views.Categorymodelapi,basename="Category")
 app_name = "api_v1"
 urlpatterns =router.urls
 # urlpatterns = [
