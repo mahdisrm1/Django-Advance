@@ -5,6 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .serializers import serialaizerpost,serializerCategory
 from ...models import Post ,Category
+from rest_framework.decorators import action
 #from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView ,ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework import mixins
@@ -144,3 +145,7 @@ class Categorymodelapi(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = serializerCategory
     queryset = Category.objects.all()
+
+    @action(methods=["get"],detail=False)
+    def test_action(self,request):
+        return Response({"ok":"test"}) 
